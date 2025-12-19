@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Hub - SaaS Invoice Management</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.32/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">Invoice Hub</div>
+            <ul>
+                <li data-view="dashboard" class="active">📊 Dashboard</li>
+                <li data-view="create">➕ Create Invoice</li>
+                <li data-view="clients">👥 Manage Clients</li>
+                <li data-view="items">📦 Manage Items</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <section id="dashboard" class="view active">
+                <h1>Dashboard</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Invoices</h3>
+                        <div id="total-invoices" class="stat-number">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div id="total-revenue" class="stat-number">₹0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Amount</h3>
+                        <div id="pending-amount" class="stat-number">₹0</div>
+                    </div>
+                </div>
+                <h2>Recent Invoices</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Client</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-invoices">
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Create Invoice View -->
+            <section id="create" class="view">
+                <h1>Create Invoice</h1>
+                <div class="invoice-form">
+                    <div class="form-row">
+                        <label>Client Name *</label>
+                        <input type="text" id="client-name" placeholder="Type client name manually" required>
+                    </div>
+                    
+                    <h3>Items</h3>
+                    <div id="items-container">
+                        <div class="item-row" data-index="0">
+                            <input type="text" class="item-name" placeholder="Item name" required>
+                            <input type="number" class="quantity" placeholder="Qty" min="0.01" step="0.01" required>
+                            <input type="number" class="unit-price" placeholder="Unit Price (₹)" min="0" step="0.01" required>
+                            <input type="number" class="gst-percentage" placeholder="GST %" value="18" min="0" max="28" step="0.01" required>
+                            <div class="item-total">₹0</div>
+                            <button type="button" class="remove-item" style="display:none">×</button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-item" class="btn-primary">+ Add Item</button>
+                    
+                    <div class="totals">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">₹0</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Total GST:</span>
+                            <span id="total-gst">₹0</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>Grand Total:</span>
+                            <span id="grand-total">₹0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button id="save-invoice" class="btn-primary">💾 Save Invoice</button>
+                        <button id="download-pdf" class="btn-secondary">📄 Download PDF</button>
+                        <button id="print-invoice" class="btn-secondary">🖨️ Print</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Clients -->
+            <section id="clients" class="view">
+                <h1>Manage Clients</h1>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>ID</th><th>Name</th><th>Created</th></tr>
+                    </thead>
+                    <tbody id="clients-table"></tbody>
+                </table>
+            </section>
+
+            <!-- Manage Items -->
+            <section id="items" class="view">
+                <h1>Manage Items</h1>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>ID</th><th>Name</th><th>GST %</th><th>Created</th></tr>
+                    </thead>
+                    <tbody id="items-table"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
